@@ -21,7 +21,7 @@ jobs:
       # Fetch all branches without specifying the local branch
       - name: Fetch the latest release branch
         run: |
-          git fetch origin 
+          git fetch origin
 
       - name: Checkout release branch
         run: |
