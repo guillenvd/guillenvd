@@ -1,4 +1,4 @@
-name: Create Daily Release Candidate Branch
+name: Create Daily Release Candidate Branch and Open PR
 
 on:
   schedule:
@@ -6,7 +6,7 @@ on:
     - cron: '0 19 * * *'  # Runs every day at 11 AM Pacific Time during Standard Time (UTC-8)
 
 jobs:
-  create_branch:
+  create_branch_and_pr:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout release branch
@@ -27,3 +27,13 @@ jobs:
       - name: Push new branch
         run: |
           echo "Branch $BRANCH_NAME created and pushed to origin."
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: release  # PR will be merged into the release branch
+          head: ${{ steps.datetime.outputs.datetime }}  # The new branch name as the head
+          title: "Daily Release Candidate - ${{ steps.datetime.outputs.datetime }}"
+          body: "This PR was automatically created by a GitHub Action and contains the daily release candidate."
+          draft: false  # Set to true if you want the PR to be a draft
