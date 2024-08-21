@@ -15,11 +15,11 @@ jobs:
       - name: Checkout release branch
         uses: actions/checkout@v4
         with:
-          ref: release  # Checkout the release branch
+          ref: main  # Checkout the release branch
           fetch-depth: 0  # Fetch all history for all branches
 
       # Fetch all branches without specifying the local branch
-      - name: Fetch the latest release branch
+      - name: Fetch the latest main branch
         run: |
           git fetch origin
 
@@ -31,13 +31,16 @@ jobs:
         id: branch_name
         run: echo "branch_name="rc/${{ env.datetime }}"" >> $GITHUB_ENV
 
+      - name: Reset release branch
+        run: |
+          git fetch origin release:release
+          git reset --hard release
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
-            commit-message: Update dependencies
-            title: Update dependencies
-            base: main
+            title: RC PR - "${{ env.datetime }}"
             body: |
               - RC ${{ env.datetime }}
 
