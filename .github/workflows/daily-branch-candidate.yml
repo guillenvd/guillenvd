@@ -26,7 +26,7 @@ jobs:
       - name: Checkout release branch
         run: |
           git checkout release
-          git pull origin release  # Pull the latest changes from the remote release branch
+          git pull origin release
 
       - name: Get the current date and hour
         id: datetime
@@ -43,13 +43,3 @@ jobs:
           git checkout -b "${{ env.branch_name }}"
           git push origin "${{ env.branch_name }}"
           echo "Branch ${{ env.branch_name }} created and pushed to origin."
-
-      - name: Create Pull Request RC to main
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          base: main  # PR will be merged into the main branch
-          branch: "${{ env.branch_name }}"
-          title: "Daily Release Candidate - ${{ env.branch_name }}"
-          body: "This PR was automatically created by a GitHub Action and contains the daily release candidate."
-          draft: false  # Set to true if you want the PR to be a draft
