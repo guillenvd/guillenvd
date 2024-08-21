@@ -13,17 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout release branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@V4
         with:
           ref: release  # Checkout the release branch
 
       - name: Get the current date and hour
         id: datetime
-        run: echo "::set-output name=datetime::$(date +'%d-%m-%Y-%H')"
+        run: echo "datetime=$(date +'%d-%m-%Y-%H')" >> $GITHUB_ENV
 
       - name: Create a new branch
         run: |
-          BRANCH_NAME="rc-${{ steps.datetime.outputs.datetime }}"
+          BRANCH_NAME="rc/${{ env.datetime }}"
           git checkout -b $BRANCH_NAME
           git push origin $BRANCH_NAME
 
