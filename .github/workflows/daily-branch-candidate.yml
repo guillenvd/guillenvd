@@ -1,0 +1,27 @@
+name: Create Daily Release Candidate Branch
+
+on:
+  schedule:
+    - cron: '0 23 * * *'  # Runs every day at 3 PM Pacific Time during Standard Time (UTC-8)
+    - cron: '0 19 * * *'  # Runs every day at 11 AM Pacific Time during Standard Time (UTC-8)
+
+jobs:
+  create_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get the current date and hour
+        id: datetime
+        run: echo "::set-output name=datetime::$(date +'%d-%m-%Y-%H')"
+
+      - name: Create a new branch
+        run: |
+          BRANCH_NAME="rc-${{ steps.datetime.outputs.datetime }}"
+          git checkout -b $BRANCH_NAME
+          git push origin $BRANCH_NAME
+
+      - name: Push new branch
+        run: |
+          echo "Branch $BRANCH_NAME created and pushed to origin."
