@@ -36,6 +36,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           base: release  # PR will be merged into the release branch
-          title: "Daily Release Candidate - ${{ BRANCH_NAME }}"
+          branch: $BRANCH_NAME
+          title: "Daily Release Candidate - $BRANCH_NAME"
           body: "This PR was automatically created by a GitHub Action and contains the daily release candidate."
           draft: false  # Set to true if you want the PR to be a draft
