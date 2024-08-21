@@ -28,6 +28,7 @@ jobs:
 
       - name: Create a new branch and Push
         run: |
+          git rev-parse --abbrev-ref HEAD
           git checkout -b "${{ env.branch_name }}"
           git push origin "${{ env.branch_name }}"
           echo "Branch ${{ env.branch_name }} created and pushed to origin."
