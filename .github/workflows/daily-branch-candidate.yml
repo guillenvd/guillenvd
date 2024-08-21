@@ -37,6 +37,7 @@ jobs:
             token: ${{ secrets.GITHUB_TOKEN }}
             commit-message: Update dependencies
             title: Update dependencies
+            base: main
             body: |
               - RC ${{ env.datetime }}
 
