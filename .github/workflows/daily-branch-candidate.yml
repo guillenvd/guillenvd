@@ -9,8 +9,10 @@ jobs:
   create_branch:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout release branch
         uses: actions/checkout@v3
+        with:
+          ref: release  # Checkout the release branch
 
       - name: Get the current date and hour
         id: datetime
