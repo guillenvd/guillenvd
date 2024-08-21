@@ -21,10 +21,13 @@ jobs:
         id: datetime
         run: echo "datetime=$(date +'%d-%m-%Y-%H')" >> $GITHUB_ENV
 
-      - name: Create a new branch
+      - name: Build new RC Branch name
         id: branch_name
+        run: echo "branch_name="rc/${{ env.datetime }}" " >> $GITHUB_ENV
+
+
+      - name: Create a new branch
         run: |
-          echo "branch_name="rc/${{ env.datetime }}" " >> $GITHUB_ENV
           git checkout -b "${{ env.branch_name }}"
           git push origin "${{ env.branch_name }}"
 
