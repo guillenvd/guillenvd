@@ -26,13 +26,10 @@ jobs:
         run: echo "branch_name="rc/${{ env.datetime }}"" >> $GITHUB_ENV
 
 
-      - name: Create a new branch
+      - name: Create a new branch and Push
         run: |
           git checkout -b "${{ env.branch_name }}"
           git push origin "${{ env.branch_name }}"
-
-      - name: Push new branch
-        run: |
           echo "Branch ${{ env.branch_name }} created and pushed to origin."
 
       - name: Create Pull Request RC to main
