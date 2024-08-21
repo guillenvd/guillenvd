@@ -38,16 +38,3 @@ jobs:
           git checkout -b "${{ env.branch_name }}"
           git push origin "${{ env.branch_name }}"
           echo "Branch ${{ env.branch_name }} created and pushed to origin."
-
-      - name: Checkout main branch
-        run: |
-          git checkout main
-          git pull origin release
-          git rev-parse --abbrev-ref HEAD
-
-      - name: Create Pull Request RC to main
-        uses: poorva17/create-pr-action@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_BRANCH: "${{ env.branch_name }}"
-          BASE_BRANCH: main
