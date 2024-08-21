@@ -18,9 +18,10 @@ jobs:
           ref: release  # Checkout the release branch
           fetch-depth: 0  # Fetch all history for all branches
 
+      # Fetch all branches without specifying the local branch
       - name: Fetch the latest release branch
         run: |
-          git fetch origin release:release
+          git fetch origin 
 
       - name: Checkout release branch
         run: |
