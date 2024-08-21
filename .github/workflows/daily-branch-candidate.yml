@@ -36,7 +36,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: main  # PR will be merged into the release branch
+          base: main  # PR will be merged into the main branch
           branch: "${{ env.branch_name }}"
           title: "Daily Release Candidate - ${{ env.branch_name }}"
           body: "This PR was automatically created by a GitHub Action and contains the daily release candidate."
