@@ -22,21 +22,22 @@ jobs:
         run: echo "datetime=$(date +'%d-%m-%Y-%H')" >> $GITHUB_ENV
 
       - name: Create a new branch
+        id: branch_name
         run: |
-          BRANCH_NAME="rc/${{ env.datetime }}"
-          git checkout -b $BRANCH_NAME
-          git push origin $BRANCH_NAME
+          echo "branch_name="rc/${{ env.datetime }}" " >> $GITHUB_ENV
+          git checkout -b env.branch_name
+          git push origin env.branch_name
 
       - name: Push new branch
         run: |
-          echo "Branch $BRANCH_NAME created and pushed to origin."
+          echo "Branch ${{ env.branch_name }} created and pushed to origin."
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           base: release  # PR will be merged into the release branch
-          branch: $BRANCH_NAME
-          title: "Daily Release Candidate - $BRANCH_NAME"
+          branch: env.branch_name
+          title: "Daily Release Candidate - ${{ env.branch_name }}"
           body: "This PR was automatically created by a GitHub Action and contains the daily release candidate."
           draft: false  # Set to true if you want the PR to be a draft
