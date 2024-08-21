@@ -23,7 +23,7 @@ jobs:
 
       - name: Build new RC Branch name
         id: branch_name
-        run: echo "branch_name="rc/${{ env.datetime }}" " >> $GITHUB_ENV
+        run: echo "branch_name="rc/${{ env.datetime }}"" >> $GITHUB_ENV
 
 
       - name: Create a new branch
@@ -35,7 +35,7 @@ jobs:
         run: |
           echo "Branch ${{ env.branch_name }} created and pushed to origin."
 
-      - name: Create Pull Request
+      - name: Create Pull Request RC to main
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
