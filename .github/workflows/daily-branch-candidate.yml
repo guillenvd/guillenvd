@@ -16,6 +16,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: release  # Checkout the release branch
+          fetch-depth: 0  # Fetch all history for all branches
+
+      - name: Fetch the latest release branch
+        run: |
+          git fetch origin release:release
+
+      - name: Checkout release branch
+        run: |
+          git checkout release
+          git pull origin release  # Pull the latest changes from the remote release branch
 
       - name: Get the current date and hour
         id: datetime
