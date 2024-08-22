@@ -41,10 +41,15 @@ jobs:
           git rev-parse --abbrev-ref HEAD
           git checkout -b "${{ env.branch_name }}"
           git push origin "${{ env.branch_name }}"
-          git merge origin/main
-          git push origin "${{ env.branch_name }}"
           echo "Branch ${{ env.branch_name }} created and pushed to origin."
 
+      - name: Merge main -> ${{ env.branch_name }}
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: main
+          target_branch: ${{ env.branch_name }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
