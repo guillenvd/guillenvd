@@ -5,7 +5,6 @@ on:
   schedule:
     - cron: '0 22 * * *'   # Runs every day at 3 PM Pacific Time during Daylight Saving Time (UTC-7)
 
-
 jobs:
   create_branch_and_pr:
     runs-on: ubuntu-latest
@@ -22,7 +21,6 @@ jobs:
           echo "repo_name=$(echo "${{ github.repository }}" | cut -d'/' -f2)" >> $GITHUB_ENV
           echo "Repository Name: $REPO_NAME"
 
-
       # Fetch all branches without specifying the local branch
       - name: Fetch the latest main branch
         run: |
@@ -36,12 +34,26 @@ jobs:
         id: branch_name
         run: echo "branch_name="rc/${{ env.datetime }}"" >> $GITHUB_ENV
 
+      - name: Check if branch already exists
+        id: check_branch
+        run: |
+          if git ls-remote --heads origin ${{ env.repo_name }} | grep -q ${{ env.repo_name }}; then
+            echo "Branch ${{ env.repo_name }} already exists."
+            echo "exists=true" >> $GITHUB_ENV
+            exit 0
+          else
+            echo "exists=false" >> $GITHUB_ENV
+          fi
+
+
       - name: Reset release branch
+        if: env.exists == 'false'
         run: |
           git fetch origin release:release
           git reset --hard release
 
       - name: Create Pull Request
+        if: env.exists == 'false'
         uses: peter-evans/create-pull-request@v6
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
@@ -55,6 +67,7 @@ jobs:
             branch: "${{ env.branch_name }}"
 
       - name: Merge main -> ${{ env.branch_name }}
+        if: env.exists == 'false'
         uses: devmasx/merge-branch@master
         with:
           type: now
