@@ -9,10 +9,10 @@ jobs:
   create_branch_and_pr:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout release branch
+      - name: Checkout main branch
         uses: actions/checkout@v4
         with:
-          ref: main  # Checkout the release branch
+          ref: main  # Checkout the main branch
           fetch-depth: 0  # Fetch all history for all branches
 
       - name: Extract and print just the repository name
@@ -21,14 +21,14 @@ jobs:
           echo "repo_name=$(echo "${{ github.repository }}" | cut -d'/' -f2)" >> $GITHUB_ENV
           echo "Repository Name: $REPO_NAME"
 
-      # Fetch all branches without specifying the local branch
       - name: Fetch the latest main branch
         run: |
           git fetch origin
 
       - name: Get the current date and hour
         id: datetime
-        run: echo "datetime=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        run: echo "datetime=$(date -d '+1 day' +'%Y-%m-%d')" >> $GITHUB_ENV
+
 
       - name: Build new RC Branch name
         id: branch_name
@@ -45,13 +45,13 @@ jobs:
             echo "exists=false" >> $GITHUB_ENV
           fi
 
-
       - name: Reset release branch
         if: env.exists == 'false'
         run: |
           git fetch origin release:release
           git reset --hard release
 
+      # This will Create the new branch rc/YYYY-MM-DD using the `release` branch using release as HEAD
       - name: Create Pull Request
         if: env.exists == 'false'
         uses: peter-evans/create-pull-request@v6
@@ -66,6 +66,7 @@ jobs:
               [1]: https://github.com/peter-evans/create-pull-request
             branch: "${{ env.branch_name }}"
 
+      # Merge latest code into the RC in order to avoid differences
       - name: Merge main -> ${{ env.branch_name }}
         if: env.exists == 'false'
         uses: devmasx/merge-branch@master
