@@ -37,8 +37,8 @@ jobs:
       - name: Check if branch already exists
         id: check_branch
         run: |
-          if git ls-remote --heads origin ${{ env.repo_name }} | grep -q ${{ env.repo_name }}; then
-            echo "Branch ${{ env.repo_name }} already exists."
+          if git ls-remote --heads origin ${{ env.branch_name }} | grep -q ${{ env.branch_name }}; then
+            echo "Branch ${{ env.branch_name }} already exists."
             echo "exists=true" >> $GITHUB_ENV
             exit 0
           else
