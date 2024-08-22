@@ -5,8 +5,6 @@ on:
   schedule:
     - cron: '0 22 * * *'   # Runs every day at 3 PM Pacific Time during Daylight Saving Time (UTC-7)
 
-env:
-    PROJECT_NAME: "NAME"
 
 jobs:
   create_branch_and_pr:
@@ -17,6 +15,13 @@ jobs:
         with:
           ref: main  # Checkout the release branch
           fetch-depth: 0  # Fetch all history for all branches
+
+      - name: Extract and print just the repository name
+        id: repo_name
+        run: |
+          echo "repo_name=$(echo "${{ github.repository }}" | cut -d'/' -f2)" >> $GITHUB_ENV
+          echo "Repository Name: $REPO_NAME"
+
 
       # Fetch all branches without specifying the local branch
       - name: Fetch the latest main branch
@@ -40,7 +45,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
-            title: "release(${{ env.PROJECT_NAME }}): ${{ env.datetime }}"
+            title: "release(${{ env.repo_name }}): ${{ env.datetime }}"
             body: |
               - RC ${{ env.datetime }}
 
