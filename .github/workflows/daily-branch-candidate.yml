@@ -54,5 +54,6 @@ jobs:
         with:
           type: now
           from_branch: main
+          message: Merge main into ${{ env.branch_name }}
           target_branch: ${{ env.branch_name }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
