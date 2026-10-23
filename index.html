@@ -653,6 +653,85 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:380px){.v20-tile-top .work-friendly-badge{padding:5px 6px;font-size:10px}.work-amenities{gap:7px}.work-amenities>div{padding:10px}}
 
 </style>
+<style>
+/* Mobile discovery: full-width cards without changing the Home carousel or desktop. */
+@media (max-width: 760px) {
+  .app-personal .v20-explore-grid,
+  .app-personal .spot-grid:has(> .v20-tile) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+  .app-personal .v20-explore-grid > .v20-tile,
+  .app-personal .spot-grid:has(> .v20-tile) > .v20-tile {
+    width: 100%;
+    height: clamp(370px, 105vw, 470px);
+    border-radius: 24px;
+  }
+  .app-personal .v20-explore-grid .v20-tile-top,
+  .app-personal .spot-grid:has(> .v20-tile) .v20-tile-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px;
+    align-items: start;
+    gap: 8px;
+    top: 16px;
+    left: 16px;
+    right: 16px;
+  }
+  .app-personal .v20-explore-grid .v20-tile-label,
+  .app-personal .spot-grid:has(> .v20-tile) .v20-tile-label {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    font-size: 12px;
+    padding: 9px 12px;
+  }
+  .app-personal .v20-explore-grid .v20-heart,
+  .app-personal .spot-grid:has(> .v20-tile) .v20-heart {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+  .app-personal .v20-explore-grid .work-friendly-badge,
+  .app-personal .spot-grid:has(> .v20-tile) .work-friendly-badge {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: start;
+    margin: 0;
+    max-width: 100%;
+  }
+  .app-personal .v20-explore-grid .v20-tile-bottom,
+  .app-personal .spot-grid:has(> .v20-tile) .v20-tile-bottom {
+    padding: 20px 20px 18px;
+  }
+  .app-personal .v20-explore-grid .v20-tile-location,
+  .app-personal .spot-grid:has(> .v20-tile) .v20-tile-location {
+    font-size: 12px;
+  }
+  .app-personal .v20-explore-grid .v20-tile-bottom h3,
+  .app-personal .spot-grid:has(> .v20-tile) .v20-tile-bottom h3 {
+    font-size: 24px;
+  }
+  .app-personal .v20-explore-grid .v20-tile-bottom p,
+  .app-personal .spot-grid:has(> .v20-tile) .v20-tile-bottom p {
+    min-height: 0;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  .app-personal .v20-explore-grid .v20-tile-foot,
+  .app-personal .spot-grid:has(> .v20-tile) .v20-tile-foot {
+    font-size: 12px;
+  }
+  .app-personal .v20-explore-grid .v20-tile-foot > span,
+  .app-personal .spot-grid:has(> .v20-tile) .v20-tile-foot > span {
+    max-width: min(65%, 240px);
+  }
+  .app-personal .v20-explore-grid .v20-tile-foot button,
+  .app-personal .spot-grid:has(> .v20-tile) .v20-tile-foot button {
+    font-size: 12px;
+    padding: 10px 14px;
+  }
+}
+</style>
 </head>
 <body>
   <div id="app"></div>
